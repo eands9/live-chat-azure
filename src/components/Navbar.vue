@@ -4,7 +4,7 @@
       <p>Hey there</p>
       <p class="email">Currently logged in as {{ user }}</p>
     </div>
-      <a :href="`/.auth/login/aad`">
+      <a :href="`/.auth/login/aadb2c`">
         <button class="email">Login</button>
       </a>
   </nav>
