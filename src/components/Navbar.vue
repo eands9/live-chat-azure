@@ -2,11 +2,16 @@
   <nav>
     <div>
       <p>Hey there</p>
-      <p class="email">Currently logged in as {{ user }}</p>
+      <p class="email">Currently logged in as {{ userInfo.userDetails }}</p>
     </div>
-      <a :href="`/.auth/login/aadb2c`">
-        <button class="email">Login</button>
-      </a>
+        <a
+          v-if="userInfo"
+          :href="`/.auth/logout?post_logout_redirect_uri=/.auth/login/aad`"
+          ><button class="email">Logout</button></a
+        >
+        <a v-if="!userInfo" :href="`/.auth/login/aad`"
+          ><button class="email">Login</button></a
+        >
   </nav>
 </template>
 
@@ -24,6 +29,35 @@ export default {
       
     })
     return { user }
+  },
+  data(){
+    return {
+      name: '',
+      userInfo: {
+        type: Object,
+        default() {},
+      },
+    }
+  },
+  async created() {
+    this.userInfo = await this.getUserInfo();
+  },
+  methods: {
+    async getUserInfo() {
+      try {
+        const response = await fetch('/.auth/me');
+        const payload = await response.json();
+        const { clientPrincipal } = payload;
+        return clientPrincipal;
+      } catch (error) {
+        console.error('No profile could be found');
+        return undefined;
+      }
+    },
+    getUserName(name) {
+      console.log(name);
+      this.name = name;
+    },
   }
 
 
