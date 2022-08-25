@@ -2,16 +2,18 @@
   <nav>
     <div>
       <p>Hey there</p>
-      <p class="email">Currently logged in as {{ userInfo.userDetails }}</p>
+      <!-- <p class="email">Currently logged in as {{ userInfo.userDetails }}</p> -->
+      <p class="email">Currently logged in as {{ user }}</p>
     </div>
         <a
-          v-if="userInfo"
+          v-if="user"
           :href="`/.auth/logout?post_logout_redirect_uri=/.auth/login/aad`"
           ><button class="email">Logout</button></a
         >
-        <a v-if="!userInfo" :href="`/.auth/login/aad`"
+        <a v-if="!user" :href="`/.auth/login/aad`"
           ><button class="email">Login</button></a
         >
+        <!-- <button @click="handleClick">Get User</button> -->
   </nav>
 </template>
 
@@ -25,40 +27,42 @@ export default {
     const { user, getUser } = useGetUser()
     onMounted(async()=>{
       await getUser()
-      
-      
     })
+
+    // const handleClick = async() => {
+    //   await getUser()
+    // }
     return { user }
   },
-  data(){
-    return {
-      name: '',
-      userInfo: {
-        type: Object,
-        default() {},
-      },
-    }
-  },
-  async created() {
-    this.userInfo = await this.getUserInfo();
-  },
-  methods: {
-    async getUserInfo() {
-      try {
-        const response = await fetch('/.auth/me');
-        const payload = await response.json();
-        const { clientPrincipal } = payload;
-        return clientPrincipal;
-      } catch (error) {
-        console.error('No profile could be found');
-        return undefined;
-      }
-    },
-    getUserName(name) {
-      console.log(name);
-      this.name = name;
-    },
-  }
+  // data(){
+  //   return {
+  //     name: '',
+      // userInfo: {
+      //   type: Object,
+      //   default() {},
+      // },
+  //   }
+  // },
+  // async created() {
+  //   this.userInfo = await this.getUserInfo();
+  // },
+  // methods: {
+  //   async getUserInfo() {
+  //     try {
+  //       const response = await fetch('/.auth/me');
+  //       const payload = await response.json();
+  //       const { clientPrincipal } = payload;
+  //       return clientPrincipal;
+  //     } catch (error) {
+  //       console.error('No profile could be found');
+  //       return undefined;
+  //     }
+  //   },
+  //   getUserName(name) {
+  //     console.log(name);
+  //     this.name = name;
+  //   },
+  // }
 
 
 

@@ -7,8 +7,9 @@ const getUser =  async () => {
     const response = await fetch('/.auth/me');
     const payload = await response.json();
     const { clientPrincipal } = payload;
-    user.value = clientPrincipal
-    console.log("user is " + clientPrincipal)
+    user.value = clientPrincipal.userDetails
+    // console.log("user is ", clientPrincipal)
+    // return user.value
   } catch (error) {
     console.error('No profile could be found');
     // return undefined;
@@ -16,7 +17,7 @@ const getUser =  async () => {
 }
 
 const useGetUser = () => {
-  return ( user, getUser )
+  return { user, getUser }
 }
 
 export default useGetUser
